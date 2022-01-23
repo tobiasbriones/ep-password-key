@@ -19,11 +19,54 @@ non-battle-tested security library.
 
 ## Encryption with Java
 
-With this project you can learn how to use encryption in Java by using the 
+With this project you can learn how to use encryption in Java by using the
 package `javax.crypto` and the library `BCrypt`.
 
-I still need to add test cases and one diagram I had made years ago I got to 
+I still need to add test cases and one diagram I had made years ago I got to
 find among my notes.
+
+### Test
+
+With the following sample a key file can be generated and saved into the disk,
+the rest of the code is self-explained:
+
+```java
+public void saveLogin(){
+    final File loginFile = new File("user.key");
+    final JSONObject loginJSON = new JSONObject();
+    user.get(loginJSON); // Load user into the JSON Object
+    
+    try {
+        final String owner = "secret";
+        final Key key = MergeKeyGenerator.generatePublicKey(
+            loginJSON.toString(),
+            owner
+        );
+        try(FileOutputStream fos = new FileOutputStream(loginFile)) {
+            key.toOutputStream().writeTo(fos);
+        }
+    }
+    catch(Exception e){
+        JOptionPane.showMessageDialog(null, "Fail to store user login.");
+    }
+}
+```
+
+Now a user can load the key file (like a JWT):
+
+```java
+private void login(File loginFile) throws Exception {
+    try (InputStream is = new FileInputStream(loginFile)) {
+        final String owner = "secret";
+        final Key key = Key.fromInputStream(is);
+        final String data = MergeKeyOpener.openPublicKey(key, owner);
+        final JSONObject loginJSON = new JSONObject(data);
+        user.set(loginJSON);
+    }
+}
+```
+
+Consider that the "secret" must be saved into a safe place.
 
 ## Contact
 
