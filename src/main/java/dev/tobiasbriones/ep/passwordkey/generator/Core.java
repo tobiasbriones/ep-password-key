@@ -214,10 +214,10 @@ final class Core {
         final byte[] iv;
         final String encryptedText;
 
-        private Encryption(byte[] salt, byte[] encripted, byte[] iv) {
+        private Encryption(byte[] salt, byte[] encrypted, byte[] iv) {
             this.salt = salt;
             this.iv = iv;
-            this.encryptedText = Base64.getEncoder().encodeToString(encripted);
+            this.encryptedText = Base64.getEncoder().encodeToString(encrypted);
         }
     }
 }
