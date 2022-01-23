@@ -62,8 +62,6 @@ final class Core {
     private static final String ALGORITHM = "AES";
     private static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
 
-    private Core() {}
-
     private static SecretKey getSecretKey(String password, byte[] salt) throws Exception {
         final SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         final KeySpec keySpec = new PBEKeySpec(
@@ -177,20 +175,19 @@ final class Core {
         return randomText;
     }
 
-    static Encryption encrypt(String text, String password) throws
-                                                                      Exception {
+    static Encryption encrypt(String text, String password) throws Exception {
         final byte[] salt = generateSalt();
         final SecretKey secretKey = getSecretKey(password, salt);
         final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
         final byte[] input = text.getBytes(StandardCharsets.UTF_8);
-        final byte[] encripted;
+        final byte[] encrypted;
         final byte[] iv;
         final AlgorithmParameters params;
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         params = cipher.getParameters();
         iv = params.getParameterSpec(IvParameterSpec.class).getIV();
-        encripted = cipher.doFinal(input);
-        return new Encryption(salt, encripted, iv);
+        encrypted = cipher.doFinal(input);
+        return new Encryption(salt, encrypted, iv);
     }
 
     static String decrypt(
@@ -214,10 +211,12 @@ final class Core {
         final byte[] iv;
         final String encryptedText;
 
-        private Encryption(byte[] salt, byte[] encrypted, byte[] iv) {
+        Encryption(byte[] salt, byte[] encrypted, byte[] iv) {
             this.salt = salt;
             this.iv = iv;
             this.encryptedText = Base64.getEncoder().encodeToString(encrypted);
         }
     }
+
+    private Core() {}
 }
