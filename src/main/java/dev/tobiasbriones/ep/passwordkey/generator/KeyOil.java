@@ -38,7 +38,7 @@ public final class KeyOil {
     }
 
     /**
-     * @return <code>true</code> if has oil, <code>false</code> if negative oil
+     * @return {@code true} if has oil, {@code false} if negative oil
      * and positive oil are both zero.
      */
     public boolean hasNoOil() {
