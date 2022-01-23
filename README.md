@@ -17,6 +17,14 @@ before. I've never used this made-up password key algorithm for real
 applications, obviously. Although it might look good, never use a non-standard
 non-battle-tested security library.
 
+## Encryption with Java
+
+With this project you can learn how to use encryption in Java by using the 
+package `javax.crypto` and the library `BCrypt`.
+
+I still need to add test cases and one diagram I had made years ago I got to 
+find among my notes.
+
 ## Contact
 
 Tobias Briones: [GitHub](https://github.com/tobiasbriones)
